@@ -1,18 +1,14 @@
-const beginWord = "hit"
-const endWord = "cog"
-const wordList = ["hot",
-    "dot", 
-    "dog",
-    "lot",
-    "log",
-    "cog"]
+var beginWord = "hot"
+var endWord = "dog"
+var wordList = ["hot",
+ "dog",]
 
 function distToEnd (a, b) {
     if (b === undefined) {
         return 0;
     } else {
-        let c = a.value.length;
-        for (let i in a.value) {
+        var c = a.value.length;
+        for (var i in a.value) {
             if (a.value[i] == b.value[i]) {
                 c--;
             }
@@ -22,24 +18,29 @@ function distToEnd (a, b) {
 }
 
 function dist (a, b, end) {
-    let ret = null;
+    var ret = null;
     if (Object.prototype.toString.call(b) == '[object Array]') {
-        const l = a.value.length;
+        var l;
         // loop through the array
-        for (let i in b) {
-            // TODO - need better heuristic.
-            b[i].dist = l + distToEnd(b[i], end);
-            // test each character
-            for (let j in b[i].value) {
+        for (var i in b) {
+            l = a.value.length
+            // test each character to determine if they are the same
+            for (var j in b[i].value) {
                 if (a.value[j] == b[i].value[j]) {
-                    b[i].dist--;
+                    l--;
                 }
+            }
+            // if the words differ by one char, we can travel, else we can't
+            if (l <= 1) {
+                b[i].dist = l + distToEnd(b[i], end);
+            } else {
+                b[i].dist = Infinity;
             }
         }
         ret = b;
     } else {
-        let d = a.value.length;
-        for (let i in b.value) {
+        var d = a.value.length;
+        for (var i in b.value) {
             if (a.value[i] == b.value[i]) {
                 d--;
             }
@@ -50,11 +51,11 @@ function dist (a, b, end) {
 }
 
 function minDist (a) {
-    let min = {
+    var min = {
         dist: Infinity,
     };
-    let index = 0;
-    for (let i in a) {
+    var index = 0;
+    for (var i in a) {
         if (a[i].dist < min.dist) {
             min = a[i];
             index = i;
@@ -64,10 +65,9 @@ function minDist (a) {
 }
 
 function neighbor(a, b, end) {
-    let n = [];
-    for (let i in b) {
+    var n = [];
+    for (var i in b) {
         if (b[i].value != a.value && dist(a, b[i]) <= 1) {
-            console.log(b[i], dist(a, b[i]));
             n.push(b[i]);
         }
     }
@@ -75,7 +75,7 @@ function neighbor(a, b, end) {
 }
 
 function pop (a, b) {
-    for (let i in b) {
+    for (var i in b) {
         if (a.value == b[i].value) {
             b.splice(i, 1);
             break;
@@ -84,7 +84,7 @@ function pop (a, b) {
 }
 
 function Dijkstra(G, start, end) {
-    let unvisited = [];
+    var unvisited = [];
     // convert input into more easily handed data structures
     // and assign needed properties
     start = {
@@ -97,7 +97,7 @@ function Dijkstra(G, start, end) {
         dist: Infinity,
         prev: null,
     };
-    for (let i in G) {
+    for (var i in G) {
         unvisited.push({
             value: G[i],
             dist: Infinity,
@@ -105,14 +105,19 @@ function Dijkstra(G, start, end) {
         });
     };
     // set distance of all unvisited
-    unvisited = dist(start, unvisited, end);
+    // unvisited = dist(start, unvisited, end);
+    unvisited.push(start);
     while (unvisited.length > 0) {
-        let u = minDist(unvisited);
-        let n = neighbor(u, unvisited, end);
-        for (let i in n) {
-            console.log(u, n, dist(u, n[i], end))
-            if ((u.dist + dist(u, n[i], end)) < n[i].dist) {
-                n[i].dist = u.dist + dist(u, n[i], end);
+        var u = minDist(unvisited);
+        // if smallest distance is Infinity, there is no path
+        if (u.dist == Infinity) {
+            return 0;
+        }
+        var n = neighbor(u, unvisited);
+        for (var i in n) {
+            console.log(u, n[i], dist(u, n[i]));
+            if ( ( u.dist + dist(u, n[i]) ) < n[i].dist ) {
+                n[i].dist = u.dist + dist(u, n[i]);
                 n[i].prev = u;
             }
         }
@@ -121,16 +126,22 @@ function Dijkstra(G, start, end) {
             return u;
         }
     }
+    return 0;
 }
 
 
 
-(function wordLadder(beginWord, endWord, wordList) {
-    let o = Dijkstra(wordList, beginWord, endWord);
-    let a = [];
+function wordLadder(beginWord, endWord, wordList) {
+    if (beginWord.length <= 1) {
+        return 2;
+    }
+    var o = Dijkstra(wordList, beginWord, endWord);
+    var a = [];
     while (o) {
         a.push(o);
         o = o.prev;
     }
     console.log(a, a.length);
-})(beginWord, endWord, wordList);
+    return a.length;
+}
+wordLadder(beginWord, endWord, wordList);
