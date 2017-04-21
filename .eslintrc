@@ -1,0 +1,56 @@
+{
+    "parser": "babel-eslint",
+    "extends": "google",
+    "env": {
+        "es6": true,
+        "browser": true,
+        "jquery": true,
+        "jasmine": true
+    },
+    "parserOptions": {
+        "ecmaVersion": 6
+    },
+    "globals": {
+    },
+    "rules": {
+        "max-len": [
+            0,
+            80,
+            4
+        ],
+        "indent": 0,
+        "eqeqeq": 0,
+        "curly": 0,
+        "no-multi-spaces": 0,
+        "no-unused-vars": "off",
+        "no-extend-native": "off",
+        "no-var": "off",
+        "camelcase": "off",
+        "prefer-template": "off",
+        "no-mixed-operators": "off",
+        "vars-on-top": "off",
+        "quotes": "off",
+        "func-names": "off",
+        "no-param-reassign": "off",
+        "no-console": "off",
+        "no-restricted-syntax": "off",
+        "no-prototype-builtins": "off",
+        "no-tabs":"off",
+        "prefer-arrow-callback": "off",
+        "strict": "off",
+        "object-shorthand": "off",
+        "comma-dangle": ["error", "always"],
+        "space-before-function-paren": ["error", "always"],
+        "comma-spacing": "warn",
+        "no-unused-expressions": "off",
+        "no-negated-condition": "off",
+        "no-warning-comments": "off"
+    },
+    "settings": {
+    },
+    "plugins": [
+        "babel"
+    ],
+    "ecmaFeatures": {
+    }
+}

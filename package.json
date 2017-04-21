@@ -1,0 +1,22 @@
+{
+    "name": "coding-practice",
+    "version": "0.0.1",
+    "devDependencies": {
+		"babel-cli": "^6.24.1",
+		"babel-eslint": "^7.2.1",
+		"babel-loader": "^6.4.1",
+		"babel-plugin-transform-class-properties": "^6.23.0",
+		"eslint": "^3.5.0",
+		"eslint-config-airbnb": "^11.1.0",
+		"eslint-config-google": "^0.5.0",
+		"eslint-plugin-babel": "^4.1.1",
+		"eslint-plugin-import": "^1.15.0",
+		"eslint-plugin-jsx-a11y": "^2.2.2"
+    },
+    "engines": {
+		"node": ">=0.8.0"
+    },
+    "repository": {
+        "url": "https://github.com/bj7/coding-practice.git"
+    }
+}
