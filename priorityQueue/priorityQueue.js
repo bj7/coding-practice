@@ -1,6 +1,10 @@
-const minQueue = item => {
+const minQueue = (item, priority) => {
     let queue = [];
-    queue.push(item);
+    if (item !== undefined && priority !== undefined)
+        queue.push({
+            i: item,
+            p: priority,
+        });
 
     /**
      * Merge routine for mergesort.
@@ -11,7 +15,7 @@ const minQueue = item => {
     const merge = (l1, l2) => {
         let c = [];
         while (l1.length > 0 && l2.length > 0) {
-            if (l1[0] > l2[0]) {
+            if (l1[0].p > l2[0].p) {
                 c.push(l2[0]);
                 l2.splice(0, 1);
             } else {
@@ -51,17 +55,41 @@ const minQueue = item => {
     };
 
     /**
-     * Pushes the new item into the min queue.
-     * @param {number} i - item to sort
+     * Adds the item with the specified priority.
+     * @param {any} i - Identifier of the item in the queue
+     * @param {number} p - Priority of item.
      */
-    const minPush = i => {
-        queue.push(i);
+    const add_with_priority = (i, p) => {
+        queue.push({
+            i: i,
+            p: p,
+        });
+        queue = mergeSort(queue);
+    };
+
+    /**
+     * Decreases the priority of the specified item
+     * @param {any} i - Identifier
+     * @param {number} p - Priority value
+     */
+    const decrease_priority = (i, p) => {
+        let index = queue.length - 1;
+        while (index > 0) {
+            if (queue[index].i == i) {
+                queue[index].p = p;
+                index = 0;
+            }
+            index--;
+        }
         queue = mergeSort(queue);
     };
 
     return ({
-        push: i => {
-            minPush(i);
+        push: (i, p) => {
+            add_with_priority(i, p);
+        },
+        decrease_priority: (i, p) => {
+            decrease_priority(i, p);
         },
         print: () => {
             console.log(queue);
@@ -72,9 +100,11 @@ const minQueue = item => {
     });
 };
 
-let q = minQueue(2);
-q.push(9);
-q.push(10);
-q.push(5);
-q.push(3);
+let q = minQueue('e', 2);
+q.push('a', 9);
+q.push('b', 10);
+q.push('c', 5);
+q.push('d', 3);
+q.print();
+q.decrease_priority('a', 1);
 q.print();
