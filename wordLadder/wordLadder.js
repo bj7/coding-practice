@@ -1,7 +1,11 @@
-var beginWord = "hot";
-var endWord = "dog";
+var beginWord = "hit";
+var endWord = "cog";
 var wordList = ["hot",
- "dog",];
+ "dot",
+ "dog",
+ "lot",
+ "log", 
+ "cog",];
 
 const minQueue = require('../priorityQueue/priorityQueue.js');
 
@@ -280,6 +284,9 @@ function Dijkstra (G, start, end, shouldUsePriorityQueue) {
         if (u.dist == Infinity) {
             return 0;
         }
+        if (u.value == end.value && u.dist !== Infinity) {
+            return u;
+        }
         var n = neighbor(u, unvisited);
         for (var i in n) {
             if ((u.dist + dist(u, n[i])) < n[i].dist) {
@@ -288,9 +295,6 @@ function Dijkstra (G, start, end, shouldUsePriorityQueue) {
             }
         }
         pop(u, unvisited);
-        if (u.value == end.value) {
-            return u;
-        }
     }
     return 0;
 }
@@ -301,7 +305,7 @@ function wordLadder (beginWord, endWord, wordList) {
     if (beginWord.length <= 1) {
         return 2;
     }
-    var o = Dijkstra(wordList, beginWord, endWord, true);
+    var o = Dijkstra(wordList, beginWord, endWord, false);
     var a = [];
     while (o) {
         a.push(o);
