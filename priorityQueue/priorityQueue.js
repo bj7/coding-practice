@@ -1,5 +1,5 @@
-const minQueue = (item, priority) => {
-    let queue = [];
+var minQueue = function (item, priority) {
+    var queue = [];
     if (item !== undefined && priority !== undefined)
         queue.push({
             i: item,
@@ -12,8 +12,8 @@ const minQueue = (item, priority) => {
      * @param {number|Array} l2 - the right side of the array to merge
      * @return {Array} Returns sorted array.
      */
-    const merge = (l1, l2) => {
-        let c = [];
+    var merge = function (l1, l2) {
+        var c = [];
         while (l1.length > 0 && l2.length > 0) {
             if (l1[0].p > l2[0].p) {
                 c.push(l2[0]);
@@ -42,11 +42,11 @@ const minQueue = (item, priority) => {
      * @param {Array} q - Array to sort.
      * @return {Array} Returns sorted array.
      */
-    const mergeSort = q => {
+    var mergeSort = function (q) {
         if (q.length <= 1) return q;
 
-        let l1 = q.splice(0, (q.length / 2));
-        let l2 = q;
+        var l1 = q.splice(0, (q.length / 2));
+        var l2 = q;
 
         l1 = mergeSort(l1);
         l2 = mergeSort(l2);
@@ -59,10 +59,11 @@ const minQueue = (item, priority) => {
      * @param {any} i - Identifier of the item in the queue
      * @param {number} p - Priority of item.
      */
-    const add_with_priority = (i, p) => {
+    var add_with_priority = function (i, p, e) {
         queue.push({
             i: i,
             p: p,
+            e: e,
         });
         queue = mergeSort(queue);
     };
@@ -72,12 +73,12 @@ const minQueue = (item, priority) => {
      * @param {any} i - Identifier
      * @param {number} p - Priority value
      */
-    const decrease_priority = (i, p) => {
-        let index = queue.length - 1;
-        while (index > 0) {
+    var decrease_priority = function (i, p) {
+        var index = queue.length - 1;
+        while (index >= 0) {
             if (queue[index].i == i) {
                 queue[index].p = p;
-                index = 0;
+                index = -0;
             }
             index--;
         }
@@ -85,19 +86,33 @@ const minQueue = (item, priority) => {
     };
 
     return ({
-        push: (i, p) => {
-            add_with_priority(i, p);
+        push: function (i, p, e) {
+            add_with_priority(i, p, e);
         },
-        decrease_priority: (i, p) => {
+        decrease_priority: function (i, p) {
             decrease_priority(i, p);
         },
-        print: () => {
+        print: function () {
             console.log(queue);
         },
-        pop: () => {
-            return queue.splice(0, 1);
+        pop: function () {
+            var ret = queue.splice(0, 1);
+            return ret[0];
+        },
+        length: function () {
+            return queue.length;
+        },
+        list: function () {
+            var q = [];
+            for (var i = 0; i < queue.length; i++) {
+                q[i] = queue[i];
+            }
+            return q;
         },
     });
+};
+module.exports = {
+    queue: minQueue,
 };
 
 let q = minQueue('e', 2);
