@@ -45,35 +45,3 @@ function mergeSort (a) {
 
     return merge(l1, l2);
 }
-
-/**
- * @description Tests how many missing ints there are for the array to be
- * consecutive.
- * Runtime is O(n lg(n)) + O(n^2) - MergeSort runs in O(n lg(n)) but the
- * then the final determination runs in O(n) outer loop with the potential
- * of O(n) inner loop, since the gap between items might be n.
- *
- * @param {Array} statues - The array to test.
- * @return {number} Returns the number of missing consecutive elements.
- */
-function makeArrayConsecutive2 (statues) {
-    var s = mergeSort(statues);
-
-    var c = 0;
-
-    for (var i = 0; i < s.length; i++) {
-        if (s[i + 1] !== undefined) {
-            if (Math.abs(s[i] - s[i + 1]) > 1) {
-                for (var j = s[i] + 1; j < s[i + 1]; j++) {
-                    c++;
-                }
-            }
-        }
-    }
-    s;
-    c;
-    return c;
-}
-
-var statues = [6, 2, 3, 8];
-makeArrayConsecutive2(statues);
